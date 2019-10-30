@@ -46,12 +46,62 @@ function callQuickSort() {
 
 function callMergeSort() {
   // Array based implentation of mergesort
-
+  mergesort(values, 0, values.length - 1);
 
 }
 
-async function mergesort(arr) {
-  //
+async function mergesort(arr, left, right) {
+  if (left < right) {
+
+    let middle = floor((left + right) / 2);
+
+    await mergesort(arr, left, middle);
+    await mergesort(arr, middle + 1, right);
+
+    await merge(arr, left, middle, right);
+  }
+}
+
+async function merge(arr, left, middle, right) {
+
+  // // Create temp arrays
+  let L = subset(arr, left, middle - left + 1);
+  let R = subset(arr, middle + 1, right - middle);
+
+  let i =0;
+  let j = 0;
+  let k = left;
+
+  // Merge the temp arrays
+  while(i < L.length && j < R.length) {
+    if(L[i] <= R[j]) {
+      await sleep(10);
+      arr[k] = L[i];
+      i++
+    } else {
+      await sleep(10);
+      arr[k] = R[j];
+      j++;
+    }
+    k++;
+  }
+
+  // Copy remaining elements of L[] if any
+  while (i < L.length) {
+    await sleep(10);
+    arr[k] = L[i];
+    i++;
+    k++;
+  }
+
+  // Copy remaining elements of R[] if any
+  while (j < R.length) {
+    await sleep(10);
+    arr[k] = R[j];
+    j++;
+    k++;
+  }
+
 }
 
 async function quicksort(arr, start, end) {
